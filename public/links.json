@@ -1,0 +1,60 @@
+{
+  "title": "DevOps Links",
+  "subtitle": "Tous mes outils d'infra, au même endroit",
+  "auth": {
+    "enabled": true,
+    "passwordHash": "6be308343f2c4a66d9ba7618c16789e94cc93fc270c3796b9a16b3e05d83ddae"
+  },
+  "categories": [
+    {
+      "name": "GitOps & CI/CD",
+      "links": [
+        {
+          "name": "ArgoCD",
+          "url": "https://argocd.kirby.love",
+          "description": "Déploiement continu GitOps",
+          "icon": "/icons/argocd.svg",
+          "color": "#ef7b4d"
+        },
+        {
+          "name": "Harbor",
+          "url": "https://harbor.kirby.love",
+          "description": "Registre d'images de conteneurs",
+          "icon": "/icons/harbor.svg",
+          "color": "#60b932"
+        }
+      ]
+    },
+    {
+      "name": "Orchestration & Infra",
+      "links": [
+        {
+          "name": "Rancher",
+          "url": "https://rancher.kirby.love",
+          "description": "Gestion de clusters Kubernetes",
+          "icon": "/icons/rancher.svg",
+          "color": "#0075a8"
+        },
+        {
+          "name": "Vault",
+          "url": "https://vault.kirby.love",
+          "description": "Gestion des secrets",
+          "icon": "/icons/vault.svg",
+          "color": "#ffec6e"
+        }
+      ]
+    },
+    {
+      "name": "Monitoring & Analytics",
+      "links": [
+        {
+          "name": "Umami",
+          "url": "https://umami.kirby.love",
+          "description": "Statistiques web respectueuses de la vie privée",
+          "icon": "/icons/umami.svg",
+          "color": "#ff6b6b"
+        }
+      ]
+    }
+  ]
+}

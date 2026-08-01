@@ -1,0 +1,125 @@
+name: Docker build
+
+on:
+  push:
+    branches: ['**']
+    tags: ['**']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+
+concurrency:
+  group: docker-build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HARBOR_REGISTRY: ${{ vars.HARBOR_REGISTRY || 'harbor.kirby.love' }}
+  HARBOR_PROJECT: ${{ vars.HARBOR_PROJECT || 'library' }}
+  IMAGE_NAME: home-links
+
+jobs:
+  meta:
+    name: Image tag
+    runs-on: ubuntu-latest
+    outputs:
+      docker_tag: ${{ steps.tag.outputs.docker_tag }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Slug env
+        uses: rlespinasse/github-slug-action@v5
+        with:
+          slug-maxlength: '128'
+
+      - name: Compute Docker tag
+        id: tag
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            tag="pr-${{ github.event.number }}"
+          elif [[ "${{ github.ref_type }}" == "tag" ]]; then
+            tag="${GITHUB_REF_NAME_SLUG_CS}"
+          elif [[ "${{ github.ref_type }}" == "branch" ]]; then
+            tag="${GITHUB_REF_NAME_SLUG}"
+          else
+            tag="latest"
+          fi
+
+          echo "docker_tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Using Docker tag: $tag"
+
+  build:
+    name: Build & push image
+    runs-on: ubuntu-latest
+    needs: [meta]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Harbor
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.HARBOR_REGISTRY }}
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+
+      - name: Build & push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile
+          push: ${{ github.event_name == 'push' }}
+
+          tags: |
+            ${{ env.HARBOR_REGISTRY }}/${{ env.HARBOR_PROJECT }}/${{ env.IMAGE_NAME }}:latest
+
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Get Harbor image digest
+        id: digest
+        if: github.event_name == 'push'
+        run: |
+          DIGEST=$(docker buildx imagetools inspect \
+            ${{ env.HARBOR_REGISTRY }}/${{ env.HARBOR_PROJECT }}/${{ env.IMAGE_NAME }}:latest \
+            --format '{{json .Manifest.Digest}}' | tr -d '"')
+
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+
+          echo "Digest: $DIGEST"
+
+      - name: Update ArgoCD manifest
+        if: github.event_name == 'push'
+        run: |
+          git clone https://x-access-token:${{ secrets.GITOPS_TOKEN }}@github.com/Paul-Garcia/Gitops.git
+          cd Gitops
+
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            ENV="prod"
+          else
+            ENV="dev"
+          fi
+
+          cd apps/home-links/$ENV
+
+          IMAGE="${{ env.HARBOR_REGISTRY }}/${{ env.HARBOR_PROJECT }}/${{ env.IMAGE_NAME }}@${{ steps.digest.outputs.digest }}"
+
+          echo "Updating image:"
+          echo "$IMAGE"
+
+          sed -i "s|image: .*${{ env.IMAGE_NAME }}.*|image: $IMAGE|" deployment.yaml
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add deployment.yaml
+
+          git commit -m "Update home-links image digest" || echo "No changes"
+
+          git push

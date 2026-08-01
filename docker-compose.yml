@@ -1,0 +1,11 @@
+services:
+  home-links:
+    build: .
+    image: home-links:local
+    container_name: home-links
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    volumes:
+      # Edit links.json on the host without rebuilding the image.
+      - ./public/links.json:/usr/share/nginx/html/links.json:ro
