@@ -113,6 +113,8 @@ jobs:
           echo "Updating image:"
           echo "$IMAGE"
 
+          ls -la
+
           sed -i "s|image: .*${{ env.IMAGE_NAME }}.*|image: $IMAGE|" deployment-front.yaml
 
           git config user.name "github-actions"
