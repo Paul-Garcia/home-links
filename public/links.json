@@ -48,6 +48,13 @@
       "name": "Monitoring & Analytics",
       "links": [
         {
+          "name": "Grafana",
+          "url": "https://monitor.kirby.love",
+          "description": "Tableau de bord de surveillance",
+          "icon": "/icons/grafana.svg",
+          "color": "#4cacee"
+        },
+        {
           "name": "Umami",
           "url": "https://umami.kirby.love",
           "description": "Statistiques web respectueuses de la vie privée",
