@@ -7,6 +7,23 @@
   },
   "categories": [
     {
+      "name": "Documentation",
+      "links": [
+        {
+          "name": "Wiki",
+          "url": "https://wiki.kirby.love",
+          "description": "Documentation de l'infra : architecture, procédures, journal",
+          "color": "#1976d2"
+        },
+        {
+          "name": "Tailscale",
+          "url": "https://login.tailscale.com/admin/machines",
+          "description": "Réseau privé : appareils et DNS",
+          "color": "#5a5a5a"
+        }
+      ]
+    },
+    {
       "name": "GitOps & CI/CD",
       "links": [
         {
@@ -41,6 +58,12 @@
           "description": "Gestion des secrets",
           "icon": "/icons/vault.svg",
           "color": "#ffec6e"
+        },
+        {
+          "name": "Garage S3",
+          "url": "https://s3.kirby.love",
+          "description": "Stockage objet S3 (rclone, aws cli) — via Tailscale",
+          "color": "#ff9329"
         }
       ]
     },
@@ -60,6 +83,46 @@
           "description": "Statistiques web respectueuses de la vie privée",
           "icon": "/icons/umami.svg",
           "color": "#ff6b6b"
+        }
+      ]
+    },
+    {
+      "name": "Applications",
+      "links": [
+        {
+          "name": "Oddsy",
+          "url": "https://oddsy.poker",
+          "description": "Production",
+          "color": "#2e7d32"
+        },
+        {
+          "name": "Oddsy dev",
+          "url": "https://dev.oddsy.poker",
+          "description": "Environnement de développement",
+          "color": "#8e24aa"
+        }
+      ]
+    },
+    {
+      "name": "Dépôts",
+      "links": [
+        {
+          "name": "Gitops",
+          "url": "https://github.com/Paul-Garcia/Gitops",
+          "description": "Tout ce qu'Argo CD déploie",
+          "color": "#24292f"
+        },
+        {
+          "name": "k8s-stack",
+          "url": "https://github.com/Paul-Garcia/k8s-stack",
+          "description": "Reconstruction du serveur, config hôte, MCP wiki",
+          "color": "#24292f"
+        },
+        {
+          "name": "infra",
+          "url": "https://github.com/Paul-Garcia/infra",
+          "description": "OpenTofu : DNS OVH",
+          "color": "#24292f"
         }
       ]
     }
