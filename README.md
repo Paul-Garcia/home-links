@@ -1,6 +1,6 @@
 # home-links
 
-Un petit dashboard (Vite + Vue 3) pour accéder rapidement à tous les outils de ton archi DevOps (Harbor, ArgoCD, Vault, Umami, Rancher, etc.).
+Un petit dashboard (Vite + Vue 3) pour accéder rapidement à tous les outils de ton archi DevOps (Harbor, ArgoCD, Umami, Rancher, etc.).
 
 Tous les liens sont configurables via un unique fichier JSON, sans avoir à toucher au code.
 
@@ -48,7 +48,7 @@ La barre de recherche filtre sur le nom, la description et l'URL.
 
 ### Logos des outils
 
-Les logos fournis par défaut (`public/icons/*.svg` : ArgoCD, Harbor, Rancher, Vault, Umami) viennent de la librairie open source [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0), qui référence plus de 1800 logos d'outils self-hosted.
+Les logos fournis par défaut (`public/icons/*.svg` : ArgoCD, Harbor, Rancher, Umami) viennent de la librairie open source [dashboard-icons](https://github.com/homarr-labs/dashboard-icons) (Apache-2.0), qui référence plus de 1800 logos d'outils self-hosted.
 
 Pour ajouter le logo d'un nouvel outil :
 

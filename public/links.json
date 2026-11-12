@@ -53,13 +53,6 @@
           "color": "#0075a8"
         },
         {
-          "name": "Vault",
-          "url": "https://vault.kirby.love",
-          "description": "Gestion des secrets",
-          "icon": "/icons/vault.svg",
-          "color": "#ffec6e"
-        },
-        {
           "name": "Garage S3",
           "url": "https://s3.kirby.love",
           "description": "Stockage objet S3 (rclone, aws cli) — via Tailscale",
